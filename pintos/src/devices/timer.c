@@ -95,22 +95,29 @@ timer_elapsed (int64_t then)
 
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
-void timer_sleep (int64_t ticks) 
+void
+timer_sleep (int64_t ticks) 
 {
-  	int64_t start = timer_ticks ();
-  	int64_t wakeup=start+ticks;
-
-  	ASSERT (intr_get_level () == INTR_ON);
+  int64_t start = timer_ticks ();
+  int64_t wakeup_at = start + ticks;
   
-  	thread_priority_temporarily_up();	//Set the priority to MAX so as to process it first after waking up
-  	thread_block_till(wakeup,start);	//Insert the thread into sleeper list along with its blocking
+  ASSERT (intr_get_level () == INTR_ON);
+  /* 
+     while (timer_elapsed (start) < ticks) 
+     thread_yield (); 
+  */
 
-	/*while(timer_elapsed(start) < ticks)
-		thread_yield();  */
+  if(ticks > 0)
+  {
+    /* Put the thread to sleep in timer sleep queue. */
+    thread_priority_temporarily_up ();
+    thread_block_till (wakeup_at);
 
-  	thread_set_next_wakeup(); 		//Wake next thread with same wakeup time
-  	thread_priority_restore(); 		//Set the priority to the original priority
-
+    /* Thread must quit sleep and also free its successor
+       if that thread needs to wakeup at the smae time. */
+    thread_set_next_wakeup ();
+    thread_priority_restore ();
+  }
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be

@@ -1,0 +1,28 @@
+Session 1:
+Start date: 		2019 08 15 15 00
+Members Present:	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj
+Aim: 			Completed subtask 1
+Duration: 		5.5 hours
+Files affected: 	thread.c, thread.h
+Functions affected: 	ready_cmp(), thread_priority_temporarily_up(), thread_priority_restore()
+Lines of code:		15-20
+
+
+Session 2:
+Start date: 		2019 08 18 14 00
+Members Present: 	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj
+Aim: 			Completed subtask 2 and started subtask 3
+Duration: 		6 hours
+Files affected: 	timer.c, thread.c, thread.h
+Functions affected: 	before(), thread_block_till(), thread_check_first()
+Lines of code:	 	40-50
+
+
+Session 3:
+Start date:		2019 08 20 17 15
+Members Present:	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj
+Aim:			Fix errors and complete subtask 3
+Duration:		4 hours
+Files affected:		timer.c, thread.c
+Functions affected:	timer_sleep(), thread_set_next_wakeup()
+Lines of code:		20-30
