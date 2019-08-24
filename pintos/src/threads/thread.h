@@ -97,6 +97,7 @@ struct thread
 
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
+    struct list locks_acquired;         /* List of locks acquired by a thread */
   };
 
 /* If false (default), use round-robin scheduler.
@@ -115,9 +116,6 @@ tid_t thread_create (const char *name, int priority, thread_func *, void *);
 
 void thread_block (void);
 void thread_unblock (struct thread *);
-
-void thread_block_till (int64_t);
-void thread_set_next_wakeup ();
 
 struct thread *thread_current (void);
 tid_t thread_tid (void);
@@ -152,5 +150,6 @@ void thread_block_till(int64_t);
 void thread_set_next_wakeup(void);
 
 //Task 2 function declarations
+int thread_get_priority_effective (struct thread *);
 
 #endif /* threads/thread.h */

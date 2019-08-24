@@ -278,7 +278,8 @@ thread_unblock (struct thread *t)
 
   old_level = intr_disable ();
   ASSERT (t->status == THREAD_BLOCKED);
-  list_insert_ordered (&ready_list, &t->elem, ready_cmp, NULL);
+  //list_insert_ordered (&ready_list, &t->elem, ready_cmp, NULL);
+  list_push_back (&ready_list, &t->elem);
   t->status = THREAD_READY;
   intr_set_level (old_level);
 }
@@ -351,7 +352,8 @@ thread_yield (void)
 
   old_level = intr_disable ();
   if (cur != idle_thread) 
-    list_insert_ordered (&ready_list, &cur->elem, ready_cmp, NULL);
+    //list_insert_ordered (&ready_list, &cur->elem, ready_cmp, NULL);
+    list_push_back (&ready_list, &cur->elem);
   cur->status = THREAD_READY;
   schedule ();
   intr_set_level (old_level);
@@ -385,14 +387,15 @@ thread_set_priority (int new_priority)
   cur->priority = new_priority;
 
   if(new_priority < prev_priority)
-  	thread_yield();
+    thread_yield();
 }
 
 /* Returns the current thread's priority. */
 int
 thread_get_priority (void) 
 {
-  return thread_current ()->priority;
+  //return thread_current ()->priority;
+  return thread_get_priority_effective (thread_current ());
 }
 
 /* Sets the current thread's nice value to NICE. */
@@ -513,6 +516,7 @@ init_thread (struct thread *t, const char *name, int priority)
      call timer_sleep this vairable will be changes and it is never used before
      that */
   t->magic = THREAD_MAGIC;
+  list_init (&t->locks_acquired);
   list_push_back (&all_list, &t->allelem);
 }
 
@@ -540,7 +544,12 @@ next_thread_to_run (void)
   if (list_empty (&ready_list))
     return idle_thread;
   else
-    return list_entry (list_pop_front (&ready_list), struct thread, elem);
+  {
+    struct list_elem *min_elem = list_min (&ready_list, ready_cmp, NULL);
+    list_remove (min_elem);
+    return list_entry (min_elem, struct thread, elem);
+  }
+    //return list_entry (list_pop_front (&ready_list), struct thread, elem);
 }
 
 /* Completes a thread switch by activating the new thread's page
@@ -634,9 +643,9 @@ uint32_t thread_stack_ofs = offsetof (struct thread, stack);
 //Comparator for sorting ready list
 bool ready_cmp(const struct list_elem *a,const struct list_elem *b,void *aux UNUSED)
 {
-	struct thread * first = list_entry(a,struct thread,elem);
-	struct thread * second = list_entry(b,struct thread,elem);  
-	return thread_get_effective_priority (first) > thread_get_effective_priority (second);
+  struct thread * first = list_entry(a,struct thread,elem);
+  struct thread * second = list_entry(b,struct thread,elem);  
+  return thread_get_priority_effective (first) > thread_get_priority_effective (second);
 }
 
 //Set priority of current thread to maximum before pushing into sleeper list
@@ -670,13 +679,13 @@ void thread_block_till (int64_t wakeup_time)
 {
   struct thread *cur = thread_current ();
   enum intr_level old_level;
-  old_level = intr_disable ();		//Disable interrupts
+  old_level = intr_disable ();    //Disable interrupts
 
   cur->wakeup_time = wakeup_time;
   if (wakeup_time < next_wakeup_time)
-    next_wakeup_time = wakeup_time;	//If thread being blocked wakes up first
+    next_wakeup_time = wakeup_time; //If thread being blocked wakes up first
   list_insert_ordered (&sleepers_list, &cur->sleepers_elem, before, NULL);
-  thread_block ();			//Block current thread
+  thread_block ();      //Block current thread
   intr_set_level (old_level);
 }
 
@@ -690,7 +699,7 @@ thread_set_next_wakeup ()
   enum intr_level old_level;
   old_level = intr_disable ();
 
-  if (list_empty (&sleepers_list))	//No element sleeping, wake up time is INT64_MAX
+  if (list_empty (&sleepers_list))  //No element sleeping, wake up time is INT64_MAX
     next_wakeup_time = INT64_MAX;
   else
   {
@@ -698,7 +707,7 @@ thread_set_next_wakeup ()
     struct thread *t = list_entry (front, struct thread, sleepers_elem);
     if (t->wakeup_time <= next_wakeup_time && timer_ticks () >= next_wakeup_time)
     {
-      list_pop_front (&sleepers_list);		//Unblock sleeper list first element if its time has called
+      list_pop_front (&sleepers_list);    //Unblock sleeper list first element if its time has called
       thread_unblock (t);
 
       if (list_empty (&sleepers_list))
@@ -707,7 +716,7 @@ thread_set_next_wakeup ()
       {
         front = list_front (&sleepers_list);
         t = list_entry (front, struct thread, sleepers_elem);
-        next_wakeup_time = t->wakeup_time;	//Change next wakeup time to front of list
+        next_wakeup_time = t->wakeup_time;  //Change next wakeup time to front of list
       }
     }
     else
@@ -719,7 +728,38 @@ thread_set_next_wakeup ()
 
 //Task 2 function definitions
 
-int thread_get_effective_priority (struct thread *t)
+//return effective priority of thread
+int thread_get_priority_effective (struct thread *t)
 {
-  return t->priority;
+  //return t->priority;
+    if(!list_empty (&t->locks_acquired))
+  {
+    int max_priority = t->priority;
+    struct list_elem *e;
+    for (e = list_begin (&t->locks_acquired);
+         e != list_end (&t->locks_acquired);
+         e = list_next (e))
+    {
+      struct lock *l = list_entry (e, struct lock, elem);
+      struct list *waiters = &l->semaphore.waiters;
+
+      if(!list_empty (waiters))
+      {
+        struct list_elem *f;
+        for (f = list_begin (waiters);
+             f != list_end (waiters);
+             f = list_next (f))
+        {
+          struct thread *h = list_entry(f, struct thread, elem);
+          int ep = thread_get_priority_effective(h);
+          if(ep > max_priority)
+            max_priority = ep;
+        }
+      }
+    }
+
+    return max_priority;
+  }
+  else
+    return t->priority;
 }
