@@ -149,7 +149,8 @@ bool before(const struct list_elem *a,const struct list_elem *b,void *aux UNUSED
 void thread_block_till(int64_t);
 
 //Task 1 subtask 03 function declarations
-//void thread_check_first (struct list_elem * , int64_t );
 void thread_set_next_wakeup(void);
+
+//Task 2 function declarations
 
 #endif /* threads/thread.h */

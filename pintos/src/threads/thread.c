@@ -240,6 +240,8 @@ thread_create (const char *name, int priority,
   /* Add to run queue. */
   thread_unblock (t);
 
+  thread_yield();
+
   return tid;
 }
 
@@ -634,7 +636,7 @@ bool ready_cmp(const struct list_elem *a,const struct list_elem *b,void *aux UNU
 {
 	struct thread * first = list_entry(a,struct thread,elem);
 	struct thread * second = list_entry(b,struct thread,elem);  
-	return first->priority > second->priority; 
+	return thread_get_effective_priority (first) > thread_get_effective_priority (second);
 }
 
 //Set priority of current thread to maximum before pushing into sleeper list
@@ -713,4 +715,11 @@ thread_set_next_wakeup ()
   }
 
   intr_set_level (old_level);
+}
+
+//Task 2 function definitions
+
+int thread_get_effective_priority (struct thread *t)
+{
+  return t->priority;
 }
