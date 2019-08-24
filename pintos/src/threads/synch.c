@@ -60,13 +60,13 @@ sema_down (struct semaphore *sema)
   ASSERT (!intr_context ());
 
   old_level = intr_disable ();
-  while (sema->value == 0) 
+  while (sema->value == 0) 		//Wait for sema value to become 1
     {
       list_push_back (&sema->waiters, &thread_current ()->elem);
       //list_insert_ordered (&(sema->waiters), &thread_current ()->elem,ready_cmp,NULL);
       thread_block ();
     }
-  sema->value--;
+  sema->value--;			//Down or "P" operation on semaphore
   intr_set_level (old_level);
 }
 
@@ -107,7 +107,7 @@ sema_up (struct semaphore *sema)
 
   old_level = intr_disable ();
    
-  if (!list_empty (&sema->waiters))
+  if (!list_empty (&sema->waiters))	//Remove element with lowest effective priority from list of semaphore waiters
   {
     struct list_elem *min_elem = list_min (&sema->waiters, ready_cmp, NULL);
     list_remove (min_elem);
@@ -305,9 +305,9 @@ cond_wait (struct condition *cond, struct lock *lock)
   
   sema_init (&waiter.semaphore, 0);
   list_push_back (&cond->waiters, &waiter.elem);
-  lock_release (lock);
-  sema_down (&waiter.semaphore);
-  lock_acquire (lock);
+  lock_release (lock);			//Release lock
+  sema_down (&waiter.semaphore);	//Wait for process completion
+  lock_acquire (lock);			//Reacquire lock on process
 }
 
 /* Comparision function for fetching the semaphore element which corresponds 
