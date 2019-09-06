@@ -1,0 +1,41 @@
+Week3:
+
+Session 1:
+Start date: 		2019 09 1 15 00
+Members Present:	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj, Kartik Gupta
+Aim: 			Completed subtask 1
+Duration: 		3 hours
+Files affected: 	thread.c, timer.c
+Functions affected: 	manager(), timer_wakeup()
+Lines of code:		40-50
+
+
+Session 2:
+Start date: 		2019 09 2 17 00
+Members Present: 	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj, Kartik Gupta
+Aim: 			Started subtask 2...not completed
+Duration: 		2 hours
+Files affected: 	fixed_point.h, thread.c, thread.h
+Functions affected: 	Macros for fixed_point.h
+Lines of code:	 	15-20
+
+
+
+Session 3:
+Start date: 		2019 09 3 09 30
+Members Present: 	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj, Kartik Gupta
+Aim: 			Sorted error of subtask 2 and completed subtask 2
+Duration: 		4.5 hours
+Files affected: 	thread.c, thread.h
+Functions affected: 	bsd_schedular, thread_update_priority, thread_update_Recent_cpu, thread_update_load_Avg
+Lines of code:	 	90-100
+
+
+Session 4:
+Start date:		2019 09 3 22 30
+Members Present:	Udbhav Chugh, Mayank Baranwal, Tushar Bhutada, Aman Raj, Kartik Gupta
+Aim:			complete subtask 3
+Duration:		2 hours
+Files affected:		thread.c, synch.c
+Functions affected:	condition_comp, prioirty_sema, thread_tick,next_thread_to_run
+Lines of code:		20-30

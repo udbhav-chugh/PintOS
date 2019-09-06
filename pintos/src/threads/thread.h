@@ -84,6 +84,8 @@ struct thread
     int priority;                       /* Priority. */
     int original_priority;                   /* Original Priority. */
     int64_t wakeup_time;                  /* Time to wait before unblock. */
+    int nice;				/* Nice value */
+    int recent_cpu;			/* Recent CPU usage value */
     struct list_elem allelem;           /* List element for all threads list. */
 
     /* Shared between thread.c and synch.c. */
@@ -152,4 +154,10 @@ void thread_set_next_wakeup(void);
 //Task 2 function declarations
 int thread_get_priority_effective (struct thread *);
 
+
+//Task 3 subtask 2 function declarations
+void thread_update_priority (struct thread *);
+void thread_update_recent_cpu (struct thread *);
+void thread_update_load_avg (void);
+bool ready_cmp_mlfqs (const struct list_elem*, const struct list_elem*, void*);
 #endif /* threads/thread.h */

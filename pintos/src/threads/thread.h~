@@ -84,7 +84,8 @@ struct thread
     int priority;                       /* Priority. */
     int original_priority;                   /* Original Priority. */
     int64_t wakeup_time;                  /* Time to wait before unblock. */
-    int64_t wakeup_at;                  /* Time to wait before unblock. */
+    int nice;				/* Nice value */
+    int recent_cpu;
     struct list_elem allelem;           /* List element for all threads list. */
 
     /* Shared between thread.c and synch.c. */
@@ -98,6 +99,7 @@ struct thread
 
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
+    struct list locks_acquired;         /* List of locks acquired by a thread */
   };
 
 /* If false (default), use round-robin scheduler.
@@ -116,9 +118,6 @@ tid_t thread_create (const char *name, int priority, thread_func *, void *);
 
 void thread_block (void);
 void thread_unblock (struct thread *);
-
-void thread_block_till (int64_t);
-void thread_set_next_wakeup ();
 
 struct thread *thread_current (void);
 tid_t thread_tid (void);
@@ -150,7 +149,15 @@ bool before(const struct list_elem *a,const struct list_elem *b,void *aux UNUSED
 void thread_block_till(int64_t);
 
 //Task 1 subtask 03 function declarations
-//void thread_check_first (struct list_elem * , int64_t );
 void thread_set_next_wakeup(void);
 
+//Task 2 function declarations
+int thread_get_priority_effective (struct thread *);
+
+
+//Task 3 subtask 2 function declarations
+void thread_update_priority (struct thread *);
+void thread_update_recent_cpu (struct thread *);
+void thread_update_load_avg (void);
+bool ready_cmp_mlfqs (const struct list_elem*, const struct list_elem*, void*);
 #endif /* threads/thread.h */

@@ -109,7 +109,7 @@ sema_up (struct semaphore *sema)
    
   if (!list_empty (&sema->waiters))	//Remove element with lowest effective priority from list of semaphore waiters
   {
-    struct list_elem *min_elem = list_min (&sema->waiters, ready_cmp, NULL);
+    struct list_elem *min_elem = list_min (&sema->waiters, sema_priority, NULL);
     list_remove (min_elem);
     thread_unblock (list_entry (min_elem, struct thread, elem));
 
@@ -313,7 +313,7 @@ cond_wait (struct condition *cond, struct lock *lock)
 /* Comparision function for fetching the semaphore element which corresponds 
    to the highest priority in condition wait list. */
 bool
-cond_cmp (struct list_elem *a, struct list_elem *b, void *aux)
+cond_cmp (struct list_elem *a, struct list_elem *b, void *aux UNUSED)
 {
   struct semaphore_elem *mfirst = list_entry (a, struct semaphore_elem, elem);
   struct semaphore_elem *msecond = list_entry (b, struct semaphore_elem, elem);
@@ -324,7 +324,9 @@ cond_cmp (struct list_elem *a, struct list_elem *b, void *aux)
   struct thread *first = list_entry (lfirst, struct thread, elem);
   struct thread *second = list_entry (lsecond, struct thread, elem);
 
-  return thread_get_priority_effective (first) > thread_get_priority_effective (second);
+  if(!thread_mlfqs) return thread_get_priority_effective (first) > thread_get_priority_effective (second);
+
+return first->priority > second->priority;
 }
 
 /* If any threads are waiting on COND (protected by LOCK), then
@@ -376,4 +378,19 @@ cond_broadcast (struct condition *cond, struct lock *lock)
 
   while (!list_empty (&cond->waiters))
     cond_signal (cond, lock);
+}
+
+//Task 3 subtask 2 functions
+
+/* Thread priority comparator without priority donation based on boool thread_mlfqs for sema waiters list */
+bool sema_priority (const struct list_elem *a, const struct list_elem *b,void *aux UNUSED)
+{
+  struct thread *first = list_entry (a, struct thread, elem);
+  struct thread *second = list_entry (b, struct thread, elem);
+
+    if(thread_mlfqs!=true)
+  {
+  return thread_get_priority_effective (first) > thread_get_priority_effective (second);
+  }
+  return first->priority > second->priority ;
 }

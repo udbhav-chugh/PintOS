@@ -42,6 +42,10 @@ void cond_wait (struct condition *, struct lock *);
 void cond_signal (struct condition *, struct lock *);
 void cond_broadcast (struct condition *, struct lock *);
 
+
+//Task 3 function declarations
+bool sema_priority (const struct list_elem *a, const struct list_elem *b,void *auxUNUSED);
+
 /* Optimization barrier.
 
    The compiler will not reorder operations across an
