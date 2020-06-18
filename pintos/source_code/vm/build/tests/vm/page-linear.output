@@ -1,0 +1,47 @@
+Copying tests/vm/page-linear to scratch partition...
+Writing command line to /tmp/NY4cyWoPCu.dsk...
+squish-pty bochs -q
+========================================================================
+                       Bochs x86 Emulator 2.5.1
+              Built from SVN snapshot on January 6, 2012
+                  Compiled on Oct 10 2012 at 11:12:02
+========================================================================
+Kernel command line: -q -f extract run page-linear
+Pintos booting with 4,096 kB RAM...
+373 pages available in kernel pool.
+Base is at: 0xc0116000
+372 pages available in user pool.
+Base is at: 0xc028c000
+free_start is at: 0xc0114fec
+kernel_pages local var is at: 0xc002ff7c
+pools are at: 0xc0114f80, 0xc0114fc0
+Calibrating timer...  204,600 loops/s.
+hd0:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00011"
+hd0:1: detected 4,032 sector (1 MB) disk, model "Generic 1234", serial "BXHD00012"
+hd1:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00021"
+hd1:1: detected 8,064 sector (3 MB) disk, model "Generic 1234", serial "BXHD00022"
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch disk into file system...
+Putting 'page-linear' into the file system...
+Erasing ustar archive...
+Executing 'page-linear':
+(page-linear) begin
+(page-linear) initialize
+(page-linear) read pass
+(page-linear) read/modify/write pass one
+(page-linear) read/modify/write pass two
+(page-linear) read pass
+(page-linear) end
+page-linear: exit(0)
+Execution of 'page-linear' complete.
+Timer: 49016 ticks
+Thread: 30 idle ticks, 244 kernel ticks, 48745 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 60 reads, 210 writes
+hd1:0: 102 reads, 2 writes
+hd1:1: 13776 reads, 14944 writes
+Console: 1331 characters output
+Keyboard: 0 keys pressed
+Exception: 2239 page faults
+Powering off...

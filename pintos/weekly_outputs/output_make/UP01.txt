@@ -1,0 +1,30 @@
+Writing command line to /tmp/VqFQaex31X.dsk...
+squish-pty bochs -q
+========================================================================
+                       Bochs x86 Emulator 2.5.1
+              Built from SVN snapshot on January 6, 2012
+                  Compiled on Oct 10 2012 at 11:12:02
+========================================================================
+Kernel command line: -q run 'echo My setup_stack() works '
+Pintos booting with 4,096 kB RAM...
+374 pages available in kernel pool.
+373 pages available in user pool.
+Calibrating timer...  204,600 loops/s.
+hd0:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00011"
+hd0:1: detected 4,032 sector (1 MB) disk, model "Generic 1234", serial "BXHD00012"
+Boot complete.
+Executing 'echo My setup_stack() works ':
+Execution of 'echo My setup_stack() works ' complete.
+Timer: 124 ticks
+Thread: 30 idle ticks, 91 kernel ticks, 10 user ticks
+hd0:0: 0 reads, 0 writes
+ARGC:4 ARGV:bfffffd0
+Argv[0] = bfffffe4 pointing at echo
+hd0:1: 26 reads, 0 writes
+Argv[1] = bfffffe9 pointing at My
+Console: 695 characters output
+Argv[2] = bfffffec pointing at setup_stack()
+Keyboard: 0 keys pressed
+Argv[3] = bffffffa pointing at works
+Exception: 0 page faults
+Powering off...

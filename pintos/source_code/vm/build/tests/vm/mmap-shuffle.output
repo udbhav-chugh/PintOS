@@ -1,0 +1,56 @@
+Copying tests/vm/mmap-shuffle to scratch partition...
+Writing command line to /tmp/74XlT5EZkA.dsk...
+squish-pty bochs -q
+========================================================================
+                       Bochs x86 Emulator 2.5.1
+              Built from SVN snapshot on January 6, 2012
+                  Compiled on Oct 10 2012 at 11:12:02
+========================================================================
+Kernel command line: -q -f extract run mmap-shuffle
+Pintos booting with 4,096 kB RAM...
+373 pages available in kernel pool.
+Base is at: 0xc0116000
+372 pages available in user pool.
+Base is at: 0xc028c000
+free_start is at: 0xc0114fec
+kernel_pages local var is at: 0xc002ff7c
+pools are at: 0xc0114f80, 0xc0114fc0
+Calibrating timer...  204,600 loops/s.
+hd0:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00011"
+hd0:1: detected 4,032 sector (1 MB) disk, model "Generic 1234", serial "BXHD00012"
+hd1:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00021"
+hd1:1: detected 8,064 sector (3 MB) disk, model "Generic 1234", serial "BXHD00022"
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch disk into file system...
+Putting 'mmap-shuffle' into the file system...
+Erasing ustar archive...
+Executing 'mmap-shuffle':
+(mmap-shuffle) begin
+(mmap-shuffle) create "buffer"
+(mmap-shuffle) open "buffer"
+(mmap-shuffle) mmap "buffer"
+(mmap-shuffle) init: cksum=3115322833
+(mmap-shuffle) shuffle 0: cksum=1691062564
+(mmap-shuffle) shuffle 1: cksum=1973575879
+(mmap-shuffle) shuffle 2: cksum=1647619479
+(mmap-shuffle) shuffle 3: cksum=96566261
+(mmap-shuffle) shuffle 4: cksum=3885786467
+(mmap-shuffle) shuffle 5: cksum=3022003332
+(mmap-shuffle) shuffle 6: cksum=3614934266
+(mmap-shuffle) shuffle 7: cksum=2704001777
+(mmap-shuffle) shuffle 8: cksum=735775156
+(mmap-shuffle) shuffle 9: cksum=1864109763
+(mmap-shuffle) end
+mmap-shuffle: exit(0)
+Execution of 'mmap-shuffle' complete.
+Timer: 24383 ticks
+Thread: 30 idle ticks, 250 kernel ticks, 24106 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 343 reads, 734 writes
+hd1:0: 106 reads, 2 writes
+hd1:1: 0 reads, 0 writes
+Console: 1730 characters output
+Keyboard: 0 keys pressed
+Exception: 36 page faults
+Powering off...

@@ -1,0 +1,72 @@
+Copying tests/vm/page-merge-par to scratch partition...
+Copying tests/vm/child-sort to scratch partition...
+Writing command line to /tmp/bRPUsKio5a.dsk...
+squish-pty bochs -q
+========================================================================
+                       Bochs x86 Emulator 2.5.1
+              Built from SVN snapshot on January 6, 2012
+                  Compiled on Oct 10 2012 at 11:12:02
+========================================================================
+Kernel command line: -q -f extract run page-merge-par
+Pintos booting with 4,096 kB RAM...
+373 pages available in kernel pool.
+Base is at: 0xc0116000
+372 pages available in user pool.
+Base is at: 0xc028c000
+free_start is at: 0xc0114fec
+kernel_pages local var is at: 0xc002ff7c
+pools are at: 0xc0114f80, 0xc0114fc0
+Calibrating timer...  204,600 loops/s.
+hd0:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00011"
+hd0:1: detected 4,032 sector (1 MB) disk, model "Generic 1234", serial "BXHD00012"
+hd1:0: detected 1,008 sector (504 kB) disk, model "Generic 1234", serial "BXHD00021"
+hd1:1: detected 8,064 sector (3 MB) disk, model "Generic 1234", serial "BXHD00022"
+Formatting file system...done.
+Boot complete.
+Extracting ustar archive from scratch disk into file system...
+Putting 'page-merge-par' into the file system...
+Putting 'child-sort' into the file system...
+Erasing ustar archive...
+Executing 'page-merge-par':
+(page-merge-par) begin
+(page-merge-par) init
+(page-merge-par) sort chunk 0
+(page-merge-par) sort chunk 1
+(page-merge-par) sort chunk 2
+(page-merge-par) sort chunk 3
+(page-merge-par) sort chunk 4
+(page-merge-par) sort chunk 5
+(page-merge-par) sort chunk 6
+(page-merge-par) sort chunk 7
+(page-merge-par) wait for child 0
+child-sort: exit(123)
+child-sort: exit(123)
+child-sort: exit(123)
+child-sort: exit(123)
+(page-merge-par) wait for child 1
+child-sort: exit(123)
+child-sort: exit(123)
+child-sort: exit(123)
+child-sort: exit(123)
+(page-merge-par) wait for child 2
+(page-merge-par) wait for child 3
+(page-merge-par) wait for child 4
+(page-merge-par) wait for child 5
+(page-merge-par) wait for child 6
+(page-merge-par) wait for child 7
+(page-merge-par) merge
+(page-merge-par) verify
+(page-merge-par) success, buf_idx=1,048,576
+(page-merge-par) end
+page-merge-par: exit(0)
+Execution of 'page-merge-par' complete.
+Timer: 27916 ticks
+Thread: 30 idle ticks, 410 kernel ticks, 27479 user ticks
+hd0:0: 0 reads, 0 writes
+hd0:1: 4817 reads, 6590 writes
+hd1:0: 203 reads, 2 writes
+hd1:1: 3072 reads, 4232 writes
+Console: 2044 characters output
+Keyboard: 0 keys pressed
+Exception: 832 page faults
+Powering off...
